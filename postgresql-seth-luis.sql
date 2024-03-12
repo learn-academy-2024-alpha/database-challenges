@@ -102,22 +102,87 @@
 -- LIMIT 1
 
 -- Which is the biggest country by area? (HINT: 1.70754e+07)
-
+-- SELECT name, surfacearea
+-- FROM country 
+-- WHERE surfacearea > 0
+-- ORDER BY surfacearea DESC
+-- LIMIT 1
 
 -- Which is the biggest country by population? (HINT: 1277558000)
-
+-- SELECT name, population
+-- FROM country 
+-- WHERE population > 0
+-- ORDER BY population DESC
+-- LIMIT 1
 
 -- Who is the most influential head of state measured by population? (HINT: Jiang Zemin)
-
+-- SELECT name, population, headofstate
+-- FROM country 
+-- WHERE population > 0
+-- ORDER BY population DESC
+-- LIMIT 1
 
 -- Of the countries with the top 10 gnp, which has the smallest population? (HINT: Canada)
+-- WITH gnp_countries AS (
+-- 	SELECT name, population, gnp
+-- 	FROM country
+-- 	WHERE population > 0
+-- 	AND gnp > 0
+-- 	ORDER BY gnp DESC
+-- LIMIT 10
+-- )
+-- SELECT *
+-- FROM gnp_countries
+-- ORDER BY population ASC
+
 -- Of the 10 least populated countries with permanent residents (a non-zero population), which has the largest surfacearea? (HINT: Svalbard and Jan Mayen)
+-- WITH least_populated AS (
+-- 	SELECT name, population, surfacearea
+-- 	FROM country
+-- 	WHERE population > 0
+-- 	ORDER BY population ASC
+-- LIMIT 10
+-- )
+-- SELECT name, population, surfacearea
+-- FROM least_populated
+-- ORDER BY surfacearea DESC
+
 -- Which region has the highest average gnp? (HINT: North America)
+-- SELECT region, AVG(gnp)
+-- FROM country
+-- GROUP BY region
+-- ORDER BY avg DESC
+-- LIMIT 1
+
 -- Who is the most influential head of state measured by surface area? (HINT: Elisabeth II)
+-- SELECT headofstate, SUM(surfacearea) AS popularsurfacearea
+-- FROM country 
+-- GROUP BY headofstate
+-- ORDER BY popularsurfacearea DESC
+-- LIMIT 1
+
 -- What is the average life expectancy for all continents?
+-- SELECT AVG(lifeexpectancy)
+-- FROM country 
+-- ORDER BY avg DESC
+-- LIMIT 1
+-- -66.5
+
 -- What are the most common forms of government? (HINT: use count(*))
+-- SELECT governmentform, COUNT(*)
+-- FROM country
+-- GROUP BY governmentform 
+-- ORDER BY count DESC
+
 -- How many countries are in North America?
+-- SELECT COUNT(*)
+-- FROM country
+-- WHERE continent = 'North America'
+-- 37
+
 -- What is the total population of all continents?
+
+
 -- 🏔 Stretch Goals
 -- Which countries have the letter "z" in the name? How many?
 -- Of the smallest 10 countries by area, which has the biggest gnp? (HINT: Macao)
