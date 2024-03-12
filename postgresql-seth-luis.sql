@@ -181,7 +181,9 @@
 -- 37
 
 -- What is the total population of all continents?
-
+-- SELECT continent, SUM(population)
+-- FROM country
+-- GROUP BY continent;
 
 -- 🏔 Stretch Goals
 -- Which countries have the letter "z" in the name? How many?
