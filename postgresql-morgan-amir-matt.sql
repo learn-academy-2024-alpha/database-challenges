@@ -155,8 +155,28 @@ FROM country;
 
 -- 🏔 Stretch Goals
 -- Which countries have the letter "z" in the name? How many?
+SELECT name
+FROM country
+WHERE name LIKE '%z%'
+OR name LIKE '%Z%';
+
 -- Of the smallest 10 countries by area, which has the biggest gnp? (HINT: Macao)
+WITH populated_countries AS (
+	SELECT name, surfacearea, gnp
+	FROM country
+	WHERE surfacearea > 0
+	AND gnp > 0
+	ORDER BY surfacearea
+	LIMIT 10
+)
+SELECT name, surfacearea, gnp
+FROM populated_countries 
+ORDER BY gnp DESC
+LIMIT 1
+
 -- Of the smallest 10 countries by population, which has the biggest per capita gnp?
+
+
 -- Of the biggest 10 countries by area, which has the biggest gnp?
 -- Of the biggest 10 countries by population, which has the biggest per capita gnp?
 -- What is the sum of surface area of the 10 biggest countries in the world? The 10 smallest?
