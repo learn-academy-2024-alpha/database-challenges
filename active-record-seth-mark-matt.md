@@ -198,4 +198,60 @@ Contact.find(3).last_name
  => "Crist" 
 
  ### Update all the family members with the same last name as you to have the same phone number as you.
-  
+  same_lastname.update(phone_number: mark.phone_number) 
+  Contact Load (12.0ms)  SELECT "contacts".* FROM "contacts" WHERE "contacts"."last_name" = $1  [["last_name", "Smith"]]
+ => 
+[#<Contact:0x0000000105be0dd8
+  id: 6,
+  first_name: "John",
+  last_name: "Smith",
+  phone_number: "281-330-8004",
+  created_at: Wed, 13 Mar 2024 21:10:47.260225000 UTC +00:00,
+  updated_at: Wed, 13 Mar 2024 21:10:47.260225000 UTC +00:00>,
+ #<Contact:0x0000000105be0c98
+  id: 2,
+  first_name: "Mark",
+  last_name: "Smith",
+  phone_number: "281-330-8004",
+  created_at: Wed, 13 Mar 2024 20:36:45.239777000 UTC +00:00,
+  updated_at: Wed, 13 Mar 2024 21:30:12.999968000 UTC +00:00>] 
+
+  #Remove all family members that do not have your last name.
+  not_lastname = Contact.where.not(last_name: "Smith")
+  Contact Load (0.3ms)  SELECT "contacts".* FROM "contacts" WHERE "contacts"."last_name" != $1 /* loading for pp */ LIMIT $2  [["last_name", "Smith"], ["LIMIT", 11]]
+ => 
+[#<Contact:0x0000000105ccbcc0
+... 
+3.2.0 :036 > not_lastname.destroy_all
+  Contact Load (0.4ms)  SELECT "contacts".* FROM "contacts" WHERE "contacts"."last_name" != $1  [["last_name", "Smith"]]
+  TRANSACTION (0.2ms)  BEGIN
+  Contact Destroy (1.0ms)  DELETE FROM "contacts" WHERE "contacts"."id" = $1  [["id", 1]]
+  TRANSACTION (1.6ms)  COMMIT
+  TRANSACTION (0.2ms)  BEGIN
+  Contact Destroy (2.8ms)  DELETE FROM "contacts" WHERE "contacts"."id" = $1  [["id", 3]]
+  TRANSACTION (1.0ms)  COMMIT
+  TRANSACTION (32.4ms)  BEGIN
+  Contact Destroy (34.4ms)  DELETE FROM "contacts" WHERE "contacts"."id" = $1  [["id", 4]]
+  TRANSACTION (0.6ms)  COMMIT
+ => 
+[#<Contact:0x0000000105be08d8
+  id: 1,
+  first_name: "Matt",
+  last_name: "Barnabo",
+  phone_number: "9524659143",
+  created_at: Wed, 13 Mar 2024 20:34:37.838768000 UTC +00:00,
+  updated_at: Wed, 13 Mar 2024 20:34:37.838768000 UTC +00:00>,
+ #<Contact:0x0000000105be0798
+  id: 3,
+  first_name: "Seth",
+  last_name: "Crist",
+  phone_number: "555-555-5555\n",
+  created_at: Wed, 13 Mar 2024 20:39:27.238447000 UTC +00:00,
+  updated_at: Wed, 13 Mar 2024 20:39:27.238447000 UTC +00:00>,
+ #<Contact:0x0000000105be0658
+  id: 4,
+  first_name: "Patrick",
+  last_name: "Mahomes",
+  phone_number: "111-111-1111",
+  created_at: Wed, 13 Mar 2024 20:43:03.489580000 UTC +00:00,
+  updated_at: Wed, 13 Mar 2024 20:43:03.489580000 UTC +00:00>] 
